@@ -37,20 +37,20 @@ class seat
         silver=100;
     }
 
-    void mseat(node head,node last)
+    void mseat()
     {
     for(int i=0;i<(p+g+s);i++)
     for(int j=0;j<10;j++)
     {
-        if(head==NULL)
+        if(head1==NULL)
         {
             node temp=getnode();
             temp->row='A';
             temp->no=1;
             temp->cost=200;
             temp->id=(temp->row * temp->no * temp->cost)/7;
-            last=temp;
-            head=temp;
+            last1=temp;
+            head1=temp;
         }
         else
         {
@@ -64,11 +64,11 @@ class seat
             else
                 temp->cost=silver;
             temp->id=(temp->row * temp->no * temp->cost)/7;
-            last->next=temp;
-            last=temp;
+            last1->next=temp;
+            last1=temp;
         }
     }
-    cout<<head->cost;
+    cout<<head1->cost;
 
     }
 };
@@ -187,7 +187,7 @@ int main()
 {
 
     customer o1;
-    o1.mseat(head1,last1);
+    o1.mseat();
     o1.sdisplay(head1,last1);
     o1.sbook(head1,last1);
     o1.sdisplay(head1,last1);
