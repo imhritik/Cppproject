@@ -10,12 +10,7 @@ struct seatinfo
     struct seatinfo *next;
 };
 typedef struct seatinfo *node;
-node head1=NULL;
-node last1=NULL;
-node head2=NULL;
-node last2=NULL;
-node head3=NULL;
-node last3=NULL;
+
 
 node getnode()
 {
@@ -25,13 +20,29 @@ node getnode()
     temp->avail=1;
     return temp;
 }
-
+/*class admin
+{
+    string moviename;
+    int platinum,gold,silver;
+    public:
+    admin()
+    {
+        moviename
+    }
+        void setdata()
+        {
+            cout<<"Enter the moviename"
+        }
+};*/
 class seat
 {
     public:
     int platinum,gold,silver,p=3,g=5,s=2;
+       node head=NULL;
+        node last=NULL;
     seat()
     {
+
         platinum=200;
         gold=150;
         silver=100;
@@ -42,15 +53,15 @@ class seat
     for(int i=0;i<(p+g+s);i++)
     for(int j=0;j<10;j++)
     {
-        if(head1==NULL)
+        if(head==NULL)
         {
             node temp=getnode();
             temp->row='A';
             temp->no=1;
             temp->cost=200;
             temp->id=(temp->row * temp->no * temp->cost)/7;
-            last1=temp;
-            head1=temp;
+            last=temp;
+            head=temp;
         }
         else
         {
@@ -64,11 +75,69 @@ class seat
             else
                 temp->cost=silver;
             temp->id=(temp->row * temp->no * temp->cost)/7;
-            last1->next=temp;
-            last1=temp;
+            last->next=temp;
+            last=temp;
         }
     }
-    cout<<head1->cost;
+    /* for(int i=0;i<(p+g+s);i++)
+    for(int j=0;j<10;j++)
+    {
+        if(head2==NULL)
+        {
+            node temp=getnode();
+            temp->row='A';
+            temp->no=1;
+            temp->cost=200;
+            temp->id=(temp->row * temp->no * temp->cost)/7;
+            last2=temp;
+            head2=temp;
+        }
+        else
+        {
+            node temp=getnode();
+            temp->row=65+i;
+            temp->no=j+1;
+            if(i<=2)
+                temp->cost=platinum;
+            else if(i>2 && i<8)
+                temp->cost=gold;
+            else
+                temp->cost=silver;
+            temp->id=(temp->row * temp->no * temp->cost)/7;
+            last2->next=temp;
+            last2=temp;
+        }
+    }
+     for(int i=0;i<(p+g+s);i++)
+    for(int j=0;j<10;j++)
+    {
+        if(head3==NULL)
+        {
+            node temp=getnode();
+            temp->row='A';
+            temp->no=1;
+            temp->cost=200;
+            temp->id=(temp->row * temp->no * temp->cost)/7;
+            last3=temp;
+            head3=temp;
+        }
+        else
+        {
+            node temp=getnode();
+            temp->row=65+i;
+            temp->no=j+1;
+            if(i<=2)
+                temp->cost=platinum;
+            else if(i>2 && i<8)
+                temp->cost=gold;
+            else
+                temp->cost=silver;
+            temp->id=(temp->row * temp->no * temp->cost)/7;
+            last3->next=temp;
+            last3=temp;
+        }
+    }
+    cout<<head1->cost;*/
 
     }
 };
@@ -76,7 +145,7 @@ class seat
 class display:public seat
 {
 public:
-   void sdisplay(node head,node last)
+   void sdisplay()
    {
     node temp=head;
     cout<<"\n****************PLATINUM*************\n\n";
@@ -128,7 +197,7 @@ public:
 class customer:public display
 {
     public:
-    void sbook(node head,node last)
+    void sbook()
     {
         char choice1;
         int choice2,i,j,flag=1;
@@ -161,7 +230,7 @@ class customer:public display
         }
     }
 
-    void scancel(node head,node last)
+    void scancel()
     {
         node temp=head;
         int choiceid;
@@ -186,12 +255,16 @@ using namespace std;
 int main()
 {
 
-    customer o1;
-    o1.mseat();
-    o1.sdisplay(head1,last1);
-    o1.sbook(head1,last1);
-    o1.sdisplay(head1,last1);
-    o1.scancel(head1,last1);
-    o1.sdisplay(head1,last1);
+    customer o1[2];
+    for(int i=0;i<2;i++){
+    o1[i].mseat();
+    o1[i].sdisplay();
+    o1[i].sbook();
+    o1[i].sdisplay();
+    o1[i].scancel();
+    o1[i].sdisplay();}
+    o1[0].sdisplay();
+
+
     return 0;
 }
