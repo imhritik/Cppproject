@@ -10,8 +10,12 @@ struct seatinfo
     struct seatinfo *next;
 };
 typedef struct seatinfo *node;
-node head=NULL;
-node last=NULL;
+node head1=NULL;
+node last1=NULL;
+node head2=NULL;
+node last2=NULL;
+node head3=NULL;
+node last3=NULL;
 
 node getnode()
 {
@@ -33,7 +37,7 @@ class seat
         silver=100;
     }
 
-    void mseat()
+    void mseat(node head,node last)
     {
     for(int i=0;i<(p+g+s);i++)
     for(int j=0;j<10;j++)
@@ -64,6 +68,7 @@ class seat
             last=temp;
         }
     }
+    cout<<head->cost;
 
     }
 };
@@ -71,7 +76,7 @@ class seat
 class display:public seat
 {
 public:
-   void sdisplay()
+   void sdisplay(node head,node last)
    {
     node temp=head;
     cout<<"\n****************PLATINUM*************\n\n";
@@ -123,7 +128,7 @@ public:
 class customer:public display
 {
     public:
-    void sbook()
+    void sbook(node head,node last)
     {
         char choice1;
         int choice2,i,j,flag=1;
@@ -156,7 +161,7 @@ class customer:public display
         }
     }
 
-    void scancel()
+    void scancel(node head,node last)
     {
         node temp=head;
         int choiceid;
@@ -182,11 +187,11 @@ int main()
 {
 
     customer o1;
-    o1.mseat();
-    o1.sdisplay();
-    o1.sbook();
-    o1.sdisplay();
-    o1.scancel();
-    o1.sdisplay();
+    o1.mseat(head1,last1);
+    o1.sdisplay(head1,last1);
+    o1.sbook(head1,last1);
+    o1.sdisplay(head1,last1);
+    o1.scancel(head1,last1);
+    o1.sdisplay(head1,last1);
     return 0;
 }
