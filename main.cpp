@@ -120,7 +120,7 @@ public:
 
 };
 
-class book:public display
+class customer:public display
 {
     public:
     void sbook()
@@ -155,6 +155,25 @@ class book:public display
         }
         }
     }
+
+    void scancel()
+    {
+        node temp=head;
+        int choiceid;
+        cout<<"Enter booking ID : ";
+        cin>>choiceid;
+
+        while(temp && choiceid!=temp->id )
+            temp=temp->next;
+
+        if(temp)
+        {
+                temp->avail=1;
+                cout<<"Booking Cancelled \nAmount Refunded : "<<temp->cost;
+        }
+        else
+            cout<<"Wrong Booking Id\n";
+    }
 };
 
 using namespace std;
@@ -162,10 +181,12 @@ using namespace std;
 int main()
 {
 
-    book o1;
+    customer o1;
     o1.mseat();
     o1.sdisplay();
     o1.sbook();
+    o1.sdisplay();
+    o1.scancel();
     o1.sdisplay();
     return 0;
 }
