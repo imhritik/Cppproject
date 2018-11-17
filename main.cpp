@@ -74,8 +74,8 @@ public:
    void sdisplay()
    {
     node temp=head;
-
-    for(int i=0;i<(p+g+s);i++)
+    cout<<"\n****************PLATINUM*************\n\n";
+    for(int i=0;i<p;i++)
     {
         for(int j=0;j<10;j++)
         {
@@ -84,11 +84,55 @@ public:
         }
         cout<<endl;
     }
+       cout<<"\n*****************GOLD*******************\n\n";
+    for(int i=0;i<g;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            cout<<"  "<<temp->row<<temp->no;
+            temp=temp->next;
+        }
+        cout<<endl;
+    }
+
+       cout<<"\n**********SILVER************\n\n";
+    for(int i=0;i<p;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(temp){
+            cout<<"  "<<temp->row<<temp->no;
+            temp=temp->next;}
+        }
+        cout<<endl;
+    }
     }
 
 };
 
+class book:public display
+{
+    void sbook()
+    {
+        char choice1;
+        int choice2,i,j;
+        cout<<"Enter row number\n";
+        cin>>choice1;
+        cout<<"Enter seat number\n";
+        cin>>choice2;
 
+        node temp=head;
+        for(int i=0;i<(p+g+s);i++)
+        for(int j=0;j<10;j++)
+            if(choice1==temp->row && choice2==temp->no)
+            {
+                if(temp->avail)
+                cout<<"Your Booking is confirmed \nCost : "<<temp->cost<<"\nBooking Id : "<<temp->id;
+                else
+                    cout<<"The Seat is alrea"
+            }
+    }
+}
 
 using namespace std;
 
