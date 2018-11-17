@@ -79,8 +79,12 @@ public:
     {
         for(int j=0;j<10;j++)
         {
-            cout<<"  "<<temp->row<<temp->no;
+            if(temp->avail)
+                cout<<"  "<<temp->row<<temp->no;
+            else
+                cout<<"    ";
             temp=temp->next;
+
         }
         cout<<endl;
     }
@@ -89,20 +93,26 @@ public:
     {
         for(int j=0;j<10;j++)
         {
-            cout<<"  "<<temp->row<<temp->no;
+            if(temp->avail)
+                cout<<"  "<<temp->row<<temp->no;
+            else
+                cout<<"    ";
             temp=temp->next;
         }
         cout<<endl;
     }
 
        cout<<"\n**********SILVER************\n\n";
-    for(int i=0;i<p;i++)
+    for(int i=0;i<s;i++)
     {
         for(int j=0;j<10;j++)
         {
-            if(temp){
-            cout<<"  "<<temp->row<<temp->no;
-            temp=temp->next;}
+           if(temp->avail)
+                cout<<"  "<<temp->row<<temp->no;
+            else
+                cout<<"    ";
+            temp=temp->next;
+
         }
         cout<<endl;
     }
@@ -112,35 +122,50 @@ public:
 
 class book:public display
 {
+    public:
     void sbook()
     {
         char choice1;
-        int choice2,i,j;
-        cout<<"Enter row number\n";
+        int choice2,i,j,flag=1;
+        cout<<"Enter row\n";
         cin>>choice1;
         cout<<"Enter seat number\n";
         cin>>choice2;
 
         node temp=head;
         for(int i=0;i<(p+g+s);i++)
+        { if(!flag)
+                break;
         for(int j=0;j<10;j++)
+        {
             if(choice1==temp->row && choice2==temp->no)
             {
                 if(temp->avail)
-                cout<<"Your Booking is confirmed \nCost : "<<temp->cost<<"\nBooking Id : "<<temp->id;
+               {
+                    cout<<"Your Booking is confirmed \nCost : "<<temp->cost<<"\nBooking Id : "<<temp->id;
+                    temp->avail=0;
+                }
                 else
-                    cout<<"The Seat is alrea"
+                    cout<<"The Seat is already booked!\n";
+                    flag=0;
+                    break;
             }
+
+            temp=temp->next;
+        }
+        }
     }
-}
+};
 
 using namespace std;
 
 int main()
 {
 
-    display o1;
+    book o1;
     o1.mseat();
+    o1.sdisplay();
+    o1.sbook();
     o1.sdisplay();
     return 0;
 }
