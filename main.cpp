@@ -20,21 +20,32 @@ node getnode()
     temp->avail=1;
     return temp;
 }
-/*class admin
+string moviename[3];
+void movname(string name,int p)
+    {
+        moviename[0]="Movie 1";
+        moviename[1]="Movie 2";
+        moviename[2]="Movie 3";
+        moviename[p]=name;
+    }
+
+class admin
 {
-    string moviename;
+
     int platinum,gold,silver;
     public:
-    admin()
+    int earning=0;
+
+
+
+
+    void admindisplay()
     {
-        moviename
+        cout<<"Earning : "<<earning;
     }
-        void setdata()
-        {
-            cout<<"Enter the moviename"
-        }
-};*/
-class seat
+
+};
+class seat:public admin
 {
     public:
     int platinum,gold,silver,p=3,g=5,s=2;
@@ -79,65 +90,7 @@ class seat
             last=temp;
         }
     }
-    /* for(int i=0;i<(p+g+s);i++)
-    for(int j=0;j<10;j++)
-    {
-        if(head2==NULL)
-        {
-            node temp=getnode();
-            temp->row='A';
-            temp->no=1;
-            temp->cost=200;
-            temp->id=(temp->row * temp->no * temp->cost)/7;
-            last2=temp;
-            head2=temp;
-        }
-        else
-        {
-            node temp=getnode();
-            temp->row=65+i;
-            temp->no=j+1;
-            if(i<=2)
-                temp->cost=platinum;
-            else if(i>2 && i<8)
-                temp->cost=gold;
-            else
-                temp->cost=silver;
-            temp->id=(temp->row * temp->no * temp->cost)/7;
-            last2->next=temp;
-            last2=temp;
-        }
-    }
-     for(int i=0;i<(p+g+s);i++)
-    for(int j=0;j<10;j++)
-    {
-        if(head3==NULL)
-        {
-            node temp=getnode();
-            temp->row='A';
-            temp->no=1;
-            temp->cost=200;
-            temp->id=(temp->row * temp->no * temp->cost)/7;
-            last3=temp;
-            head3=temp;
-        }
-        else
-        {
-            node temp=getnode();
-            temp->row=65+i;
-            temp->no=j+1;
-            if(i<=2)
-                temp->cost=platinum;
-            else if(i>2 && i<8)
-                temp->cost=gold;
-            else
-                temp->cost=silver;
-            temp->id=(temp->row * temp->no * temp->cost)/7;
-            last3->next=temp;
-            last3=temp;
-        }
-    }
-    cout<<head1->cost;*/
+
 
     }
 };
@@ -145,9 +98,10 @@ class seat
 class display:public seat
 {
 public:
-   void sdisplay()
+   void sdisplay(int z)
    {
     node temp=head;
+    cout<<"\n\n          MOVIE : "<<moviename[z];
     cout<<"\n****************PLATINUM*************\n\n";
     for(int i=0;i<p;i++)
     {
@@ -217,6 +171,7 @@ class customer:public display
                 if(temp->avail)
                {
                     cout<<"Your Booking is confirmed \nCost : "<<temp->cost<<"\nBooking Id : "<<temp->id;
+                    earning+=temp->cost;
                     temp->avail=0;
                 }
                 else
@@ -244,6 +199,7 @@ class customer:public display
         {
                 temp->avail=1;
                 cout<<"Booking Cancelled \nAmount Refunded : "<<temp->cost;
+                earning-=temp->cost;
         }
         else
             cout<<"Wrong Booking Id\n";
@@ -254,17 +210,39 @@ using namespace std;
 
 int main()
 {
+    customer o1[3];
+    int choice;
+    string pass="0000";
+    cout<<"Enter 1 : Admin   2 : Customer : ";
+    cin>>choice;
+    if(choice==1)
+        {
+            string p;
+            cout<<"Enter the Password : ";
+            cin>>p;
+            if(p==pass)
+            {
+                int c;
+                cout<<"\n1:Insert Movie  2:Ticket Transaction : ";
+                cin>>c;
+                if(c==1){
+                int screen;
+                string name;
+                cout<<"Enter Screen No : ";
+                cin>>screen;
+                cout<<"Enter movie name : ";
+                cin>>name;
+                movname(name,screen-1);
+            }
+            }}
 
-    customer o1[2];
     for(int i=0;i<2;i++){
     o1[i].mseat();
-    o1[i].sdisplay();
+    o1[i].sdisplay(i);
     o1[i].sbook();
-    o1[i].sdisplay();
+    o1[i].sdisplay(i);
     o1[i].scancel();
-    o1[i].sdisplay();}
-    o1[0].sdisplay();
-
-
+    o1[i].admindisplay();
+    }
     return 0;
 }
