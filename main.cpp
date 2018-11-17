@@ -20,12 +20,9 @@ node getnode()
     temp->avail=1;
     return temp;
 }
-string moviename[3];
+string moviename[3]={"Movie 1","Movie 2","Movie 3"};
 void movname(string name,int p)
     {
-        moviename[0]="Movie 1";
-        moviename[1]="Movie 2";
-        moviename[2]="Movie 3";
         moviename[p]=name;
     }
 
@@ -39,10 +36,12 @@ class admin
 
 
 
-    void admindisplay()
+ /*   void admindisplay()
     {
+        cout<<"BOOKED TICKETS \n";
+        node temp=head;
         cout<<"Earning : "<<earning;
-    }
+    }*/
 
 };
 class seat:public admin
@@ -211,9 +210,11 @@ using namespace std;
 int main()
 {
     customer o1[3];
-    int choice;
+    int choice=1;
     string pass="0000";
-    cout<<"Enter 1 : Admin   2 : Customer : ";
+    while(choice)
+{
+    cout<<"Enter 1 : Admin   2 : Customer :  0 : Exit";
     cin>>choice;
     if(choice==1)
         {
@@ -225,7 +226,8 @@ int main()
                 int c;
                 cout<<"\n1:Insert Movie  2:Ticket Transaction : ";
                 cin>>c;
-                if(c==1){
+                if(c==1)
+            {
                 int screen;
                 string name;
                 cout<<"Enter Screen No : ";
@@ -234,15 +236,34 @@ int main()
                 cin>>name;
                 movname(name,screen-1);
             }
-            }}
-
-    for(int i=0;i<2;i++){
-    o1[i].mseat();
-    o1[i].sdisplay(i);
-    o1[i].sbook();
-    o1[i].sdisplay(i);
-    o1[i].scancel();
-    o1[i].admindisplay();
+            }
+            else
+                cout<<"Incorrect Password:(\n";
+        }
+    else if(choice==2)
+    {
+         for(int i=0;i<3;i++)
+        {
+            o1[i].mseat();
+            cout<<"SCREEN : "<<i+1<<" MOVIE : "<<moviename[i]<<endl;
+        }
+    int screen,c;
+    cout<<"1 : Book a ticket  2: Cancel a ticet : ";
+    cin>>c;
+    if(c==1)
+    {
+        cout<<"Enter Screen : ";
+        cin>>screen;
+        o1[screen-1].sdisplay(screen-1);
+        o1[screen-1].sbook();
+        o1[screen-1].sdisplay(screen-1);
+   }
+    else if(c==2)
+    {
+         o1[screen-1].scancel();
     }
+
+    }
+}
     return 0;
 }
