@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 struct seatinfo
 {
@@ -6,7 +7,7 @@ struct seatinfo
     int no;
     int avail;
     int cost;
-    int id;
+    string id;
     struct seatinfo *next;
 };
 typedef struct seatinfo *node;
@@ -29,36 +30,33 @@ void movname(string name,int p)
 class admin
 {
 
-    int platinum,gold,silver;
+
     public:
-    int earning=0;
-
-
-
-
- /*   void admindisplay()
+    int earning,platinum,gold,silver;
+        admin()
     {
-        cout<<"BOOKED TICKETS \n";
-        node temp=head;
-        cout<<"Earning : "<<earning;
-    }*/
-
-};
-class seat:public admin
-{
-    public:
-    int platinum,gold,silver,p=3,g=5,s=2;
-       node head=NULL;
-        node last=NULL;
-    seat()
-    {
-
+        earning=0;
         platinum=200;
         gold=150;
         silver=100;
     }
 
-    void mseat()
+    void adminssetprice(int p,int g,int s)
+    {
+        platinum=p;
+        gold=g;
+        silver=s;
+    }
+};
+class seat:public admin
+{
+    public:
+    int p=3,g=5,s=2;
+       node head=NULL;
+        node last=NULL;
+
+
+    void mseat(int z)
     {
     for(int i=0;i<(p+g+s);i++)
     for(int j=0;j<10;j++)
@@ -68,10 +66,13 @@ class seat:public admin
             node temp=getnode();
             temp->row='A';
             temp->no=1;
-            temp->cost=200;
-            temp->id=(temp->row * temp->no * temp->cost)/7;
+            temp->cost=platinum;
+            int a=(temp->row * temp->no * temp->cost*(z+1))/7;
+            temp->id=to_string(a);
             last=temp;
             head=temp;
+            char b=z+49;
+              temp->id+=b;
         }
         else
         {
@@ -79,18 +80,36 @@ class seat:public admin
             temp->row=65+i;
             temp->no=j+1;
             if(i<=2)
-                temp->cost=platinum;
+temp->cost=platinum;
             else if(i>2 && i<8)
                 temp->cost=gold;
             else
                 temp->cost=silver;
-            temp->id=(temp->row * temp->no * temp->cost)/7;
+            int a=(temp->row * temp->no * temp->cost*(z+1))/7;
+            temp->id=to_string(a);
             last->next=temp;
             last=temp;
+                 char b=z+49;
+              temp->id+=b;
         }
+
     }
 
 
+    }
+      void admindisplay(int z)
+    {
+        node temp=head;
+
+        while(temp!=NULL)
+        {
+            if(!temp->avail)
+            {
+                cout<<"Theater : "<<z+1<<endl<<"Seat  : "<<temp->row<<temp->no<<endl;
+            }
+            temp=temp->next;
+        }
+        cout<<"***Earning : "<<earning<<"****"<<endl;
     }
 };
 
@@ -184,13 +203,9 @@ class customer:public display
         }
     }
 
-    void scancel()
+    void scancel(string choiceid)
     {
         node temp=head;
-        int choiceid;
-        cout<<"Enter booking ID : ";
-        cin>>choiceid;
-
         while(temp && choiceid!=temp->id )
             temp=temp->next;
 
@@ -224,7 +239,7 @@ int main()
             if(p==pass)
             {
                 int c;
-                cout<<"\n1:Insert Movie  2:Ticket Transaction : ";
+                cout<<"\n1:Insert Movie  2:Ticket Transaction : 3:Set ticket price ";
                 cin>>c;
                 if(c==1)
             {
@@ -236,7 +251,27 @@ int main()
                 cin>>name;
                 movname(name,screen-1);
             }
+                else if(c==2)
+                    {
+                        for(int k=0;k<3;k++)
+                            o1[k].admindisplay(k);
+                    }
+
+                else if(c==3)
+                {
+                    int plat,go,silv;
+                           cout<<"Enter Platinum price : ";
+        cin>>plat;
+        cout<<"Enter Gold price : ";
+        cin>>go;
+        cout<<"Enter Silver price : ";
+        cin>>silv;
+            for(int k=0;k<3;k++)
+                o1[k].adminssetprice(plat,go,silv);
+
+                }
             }
+
             else
                 cout<<"Incorrect Password:(\n";
         }
@@ -244,7 +279,7 @@ int main()
     {
          for(int i=0;i<3;i++)
         {
-            o1[i].mseat();
+            o1[i].mseat(i);
             cout<<"SCREEN : "<<i+1<<" MOVIE : "<<moviename[i]<<endl;
         }
     int screen,c;
@@ -260,7 +295,18 @@ int main()
    }
     else if(c==2)
     {
-         o1[screen-1].scancel();
+        string choiceid;
+        cout<<"Enter booking ID : ";
+        cin>>choiceid;
+        char z=choiceid[choiceid.length()-1];
+        int a=stoi(&z);
+        if(a<4)
+        {
+            cout<<"THEATER : "<<a<<endl;
+            o1[a-1].scancel(choiceid);
+        }
+        else
+            cout<<"Wrong Booking Id\n";
     }
 
     }
