@@ -7,6 +7,7 @@ struct seatinfo
     int no;
     int avail;
     int cost;
+    int fcost;
     string id;
     struct seatinfo *next;
 };
@@ -19,6 +20,7 @@ node getnode()
     temp=(node)malloc(sizeof(struct seatinfo));
     temp->next=NULL;
     temp->avail=1;
+    temp->fcost=0;
     return temp;
 }
 string moviename[3]={"Movie 1","Movie 2","Movie 3"};
@@ -29,10 +31,9 @@ void movname(string name,int p)
 
 class admin
 {
-
-
+protected:
+          int earning,platinum,gold,silver,fearning=0,fcost=0;;
     public:
-    int earning,platinum,gold,silver;
         admin()
     {
         earning=0;
@@ -47,10 +48,7 @@ class admin
         gold=g;
         silver=s;
     }
-};
-class seat:public admin
-{
-    public:
+
     int p=3,g=5,s=2;
        node head=NULL;
         node last=NULL;
@@ -100,27 +98,26 @@ temp->cost=platinum;
       void admindisplay(int z)
     {
         node temp=head;
-
+        cout<<"\n Theater : "<<z+1<<endl;
         while(temp!=NULL)
         {
+
             if(!temp->avail)
             {
-                cout<<"Theater : "<<z+1<<endl<<"Seat  : "<<temp->row<<temp->no<<endl;
+                cout<<" Seat  : "<<temp->row<<temp->no<<endl;
             }
             temp=temp->next;
         }
-        cout<<"***Earning : "<<earning<<"****"<<endl;
+        cout<<" Earning : "<<earning<<endl;
+        cout<<" Food Earning : "<<fearning<<endl;
     }
-};
 
-class display:public seat
-{
-public:
    void sdisplay(int z)
    {
     node temp=head;
-    cout<<"\n\n          MOVIE : "<<moviename[z];
-    cout<<"\n****************PLATINUM*************\n\n";
+    cout<<"\n PRICES:\n PLATINUM : "<<platinum<<"\n GOLD : "<<gold<<"\n SILVER  : "<<silver;
+    cout<<"\n\n\n          MOVIE : "<<moviename[z]<<endl;
+    cout<<"\n*****************PLATINUM*****************\n\n";
     for(int i=0;i<p;i++)
     {
         for(int j=0;j<10;j++)
@@ -134,7 +131,7 @@ public:
         }
         cout<<endl;
     }
-       cout<<"\n*****************GOLD*******************\n\n";
+       cout<<"\n*****************GOLD*****************\n\n";
     for(int i=0;i<g;i++)
     {
         for(int j=0;j<10;j++)
@@ -148,7 +145,7 @@ public:
         cout<<endl;
     }
 
-       cout<<"\n**********SILVER************\n\n";
+       cout<<"\n*****************SILVER*****************\n\n";
     for(int i=0;i<s;i++)
     {
         for(int j=0;j<10;j++)
@@ -166,16 +163,16 @@ public:
 
 };
 
-class customer:public display
+class customer:public admin
 {
     public:
     void sbook()
     {
         char choice1;
         int choice2,i,j,flag=1;
-        cout<<"Enter row\n";
+        cout<<"\n\n Enter row  :  ";
         cin>>choice1;
-        cout<<"Enter seat number\n";
+        cout<<"\n Enter seat number  :  ";
         cin>>choice2;
 
         node temp=head;
@@ -188,9 +185,78 @@ class customer:public display
             {
                 if(temp->avail)
                {
-                    cout<<"Your Booking is confirmed \nCost : "<<temp->cost<<"\nBooking Id : "<<temp->id;
-                    earning+=temp->cost;
+                    cout<<"\n\n Your Booking is confirmed \n Ticket Cost : "<<temp->cost<<"\n Booking Id : "<<temp->id;
+                    if(i<p)
+                        earning+=platinum;
+                    else if(i>p&&i<g)
+                        earning+=gold;
+                    else
+                        earning+=silver;
                     temp->avail=0;
+                    int ch;int innerch,psize,csize,cqty,pqty;fcost=0;
+                    cout<<"\n\n Would you like to Buy PopCorn and Cold Drinks? ";
+                    cout<<"\n 1 - Yes \n 2 - No \n ";
+                    cin>>ch;
+                    switch(ch)
+                        {
+                            case 1:cout<<" Press \n 1 - PopCorn \n 2 - Cold Drinks \n ";
+                                   cin>>innerch;
+                                switch(innerch)
+                                    {
+                                        case 1: cout<<"\n Enter the size of PopCorn \n";
+                                        cout<<" 1 - Small - Rs 100\n 2 - Medium - Rs 150 \n 3 - Large - Rs 200\n ";
+                                        cin>>psize;
+                                        cout<<" Enter quantity required \n ";
+                                        cin>>pqty;
+                                        if(psize==1)
+                                            {
+                                                int temp=100*pqty;
+                                                fcost+=temp;
+                                                cout<<"\n PopCorn Order Confirmed\n";
+                                            }
+                                        else if(psize==2)
+                                            {
+                                                int temp=150*pqty;
+                                                fcost+=temp;
+                                                cout<<" PopCorn Order Confirmed\n";
+                                            }
+                                        else if(psize==3)
+                                            {
+                                                int temp=200*pqty;
+                                                fcost+=temp;
+                                                cout<<" PopCorn Order Confirmed\n";
+                                            }
+                                        else
+                                                cout<<" Invalid Entry";
+                                                break;
+                            case 2:cout<<" Enter the size of the Cold Drink Required\n";
+                                   cout<<" 1 - Small - Rs 50\n 2 - Medium - Rs 100 \n 3 - Large - Rs 150\n ";
+                       cin>>csize;
+                       cout<<" Enter quantity\n ";
+                       cin>>cqty;
+                       if(csize==1)
+                       {
+                           int temp=50*cqty;
+                           fcost+=temp;
+                       }
+                       else if(csize==2)
+                       {
+                           int temp=100*cqty;
+                           fcost+=temp;                       }
+                       else if(csize==3)
+                       {
+                           int temp=150*cqty;
+                           fcost+=temp;                       }
+                       else
+                        cout<<"Invalid Entry";
+                        break;
+                        default:cout<<"Invalid Entry";
+
+           }
+}
+temp->fcost=fcost;
+cout<<" Food Cost = "<<temp->fcost<<endl<<endl;
+fearning+=fcost;
                 }
                 else
                     cout<<"The Seat is already booked!\n";
@@ -229,27 +295,33 @@ int main()
     string pass="0000";
     while(choice)
 {
-    cout<<"Enter 1 : Admin   2 : Customer :  0 : Exit";
+    cout<<"\n\n Enter "<<endl;
+    cout<<" 1 : Admin   2 : Customer :  0 : Exit\n";
+    cout<<"\t\t";
     cin>>choice;
     if(choice==1)
         {
             string p;
-            cout<<"Enter the Password : ";
+            cout<<" Enter the Password : ";
             cin>>p;
             if(p==pass)
             {
-                int c;
-                cout<<"\n1:Insert Movie  2:Ticket Transaction : 3:Set ticket price ";
+                int c=1;
+                while(c){
+                cout<<"\n 1:Insert Movie  2:Ticket Transaction : 3:Set ticket price 0: Exit"<<endl;
+                cout<<"\t\t";
                 cin>>c;
+
                 if(c==1)
             {
                 int screen;
                 string name;
-                cout<<"Enter Screen No : ";
+                cout<<" Enter Screen No : ";
                 cin>>screen;
-                cout<<"Enter movie name : ";
+                if(screen>0&&screen<4){
+                cout<<" Enter movie name : ";
                 cin>>name;
-                movname(name,screen-1);
+                movname(name,screen-1);}else cout<<" Enter valid details!\n";
             }
                 else if(c==2)
                     {
@@ -259,39 +331,49 @@ int main()
 
                 else if(c==3)
                 {
+                    int t;
+                    cout<<" Enter Screen : ";
+                    cin>>t;
+                    if(t>0&&t<4){
                     int plat,go,silv;
-                           cout<<"Enter Platinum price : ";
+                           cout<<" Enter Platinum price : ";
         cin>>plat;
-        cout<<"Enter Gold price : ";
+        cout<<" Enter Gold price : ";
         cin>>go;
-        cout<<"Enter Silver price : ";
+        cout<<" Enter Silver price : ";
         cin>>silv;
-            for(int k=0;k<3;k++)
-                o1[k].adminssetprice(plat,go,silv);
+                o1[t-1].adminssetprice(plat,go,silv);}else cout<<" Enter valid details!\n";
 
                 }
-            }
+            }}
 
             else
-                cout<<"Incorrect Password:(\n";
+                cout<<" Incorrect Password :(\n";
         }
     else if(choice==2)
-    {
+    {cout<<endl<<endl;
          for(int i=0;i<3;i++)
         {
             o1[i].mseat(i);
-            cout<<"SCREEN : "<<i+1<<" MOVIE : "<<moviename[i]<<endl;
+            cout<<" SCREEN : "<<i+1<<" MOVIE : "<<moviename[i]<<endl;
         }
+        cout<<endl<<endl;
     int screen,c;
-    cout<<"1 : Book a ticket  2: Cancel a ticet : ";
+    cout<<" 1 : Book a ticket  2: Cancel a ticet : ";
     cin>>c;
+    cout<<endl<<endl;
     if(c==1)
     {
-        cout<<"Enter Screen : ";
+        int t;
+        cout<<" Enter no of tickets to be booked : ";
+        cin>>t;
+        while(t){
+        cout<<" Enter Screen : ";
         cin>>screen;
+        cout<<endl<<endl;
+        if(screen>0&&screen<4){
         o1[screen-1].sdisplay(screen-1);
-        o1[screen-1].sbook();
-        o1[screen-1].sdisplay(screen-1);
+        o1[screen-1].sbook();t--;}else cout<<" Please enter valid details!\n";}
    }
     else if(c==2)
     {
@@ -300,7 +382,7 @@ int main()
         cin>>choiceid;
         char z=choiceid[choiceid.length()-1];
         int a=stoi(&z);
-        if(a<4)
+        if(a<4&&a>0)
         {
             cout<<"THEATER : "<<a<<endl;
             o1[a-1].scancel(choiceid);
