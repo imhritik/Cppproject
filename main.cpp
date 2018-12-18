@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -172,8 +173,27 @@ class customer:public admin
         int choice2,i,j,flag=1;
         cout<<"\n\n Enter row  :  ";
         cin>>choice1;
-        cout<<"\n Enter seat number  :  ";
-        cin>>choice2;
+        while(!(choice1>64&&choice1<76))
+            {
+               cout<<"Wrong Choice!\n";
+                cout<<"\n\n Enter row  :  ";
+                cin>>choice1;
+            }string t;bool numeric=false;
+        	   while(!numeric)
+		{
+
+            cout<<"\n Enter seat number  :  ";
+		    cin>>t;
+		    if(t.find_first_not_of("0123456789.") == string::npos){ choice2=stoi(t);
+		             if((choice2>0&&choice2<11))
+
+                break;}
+
+		    cout<<" Wrong Input!\n\n\n";
+		}
+		 choice2=stoi(t);
+         if(!(choice2>0&&choice2<11))
+            {cout<<"Wrong Choice!";return;}
 
         node temp=head;
         for(int i=0;i<(p+g+s);i++)
@@ -278,27 +298,45 @@ fearning+=fcost;
         if(temp)
         {
                 temp->avail=1;
-                cout<<"Booking Cancelled \nAmount Refunded : "<<temp->cost;
+                cout<<" Booking Cancelled \n Amount Refunded : "<<temp->cost;
                 earning-=temp->cost;
         }
         else
-            cout<<"Wrong Booking Id\n";
+            cout<<" Wrong Booking Id\n";
     }
 };
 
 using namespace std;
 
+
+bool isNumeric1(string stringToCheck)
+{
+  bool numeric = false;
+
+  if(stringToCheck.find_first_not_of("0123456789.") == string::npos)
+    numeric = true;
+
+  return numeric;
+}
+
 int main()
 {
     customer o1[3];
     int choice=1;
-    string pass="0000";
+    string t,pass="0000";
     while(choice)
 {
     cout<<"\n\n Enter "<<endl;
-    cout<<" 1 : Admin   2 : Customer :  0 : Exit\n";
-    cout<<"\t\t";
-    cin>>choice;
+    cout<<" 1 : Admin   2 : Customer :  0 : Exit\n ";
+    cin>>t;
+       while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+           cout<<" 1 : Admin   2 : Customer :  0 : Exit\n ";
+            cin>>t;
+        }
+         choice=stoi(t);
+
     if(choice==1)
         {
             string p;
@@ -308,18 +346,31 @@ int main()
             {
                 int c=1;
                 while(c){
-                cout<<"\n 1:Insert Movie  2:Ticket Transaction : 3:Set ticket price 0: Exit"<<endl;
-                cout<<"\t\t";
-                cin>>c;
 
+                cout<<"\n 1:Insert Movie  2:Ticket Transaction : 3:Set ticket price  0: Exit\n ";
+                cin>>t;
+                   while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+            cout<<"\n 1:Insert Movie  2:Ticket Transaction : 3:Set ticket price 0: Exit\n ";
+            cin>>t;
+        }
+         c=stoi(t);
                 if(c==1)
             {
                 int screen;
                 string name;
                 cout<<" Enter Screen No : ";
-                cin>>screen;
+                cin>>t;
+                   while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+            cout<<" Enter Screen No : ";
+            cin>>t;
+        }
+         screen=stoi(t);
                 if(screen>0&&screen<4){
-                cout<<" Enter movie name : ";
+                cout<<" Enter movie name : ";fflush(stdin);
                 cin>>name;
                 movname(name,screen-1);}else cout<<" Enter valid details!\n";
             }
@@ -331,18 +382,46 @@ int main()
 
                 else if(c==3)
                 {
-                    int t;
+                    int t1;
                     cout<<" Enter Screen : ";
                     cin>>t;
-                    if(t>0&&t<4){
+                       while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+            cout<<" Enter Screen : ";
+            cin>>t;
+        }
+         t1=stoi(t);
+                    if(t1>0&&t1<4){
                     int plat,go,silv;
                            cout<<" Enter Platinum price : ";
-        cin>>plat;
+                           cin>>t;
+                              while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+           cout<<" Enter Platinum price : ";
+            cin>>t;
+        }
+         plat=stoi(t);
         cout<<" Enter Gold price : ";
-        cin>>go;
+        cin>>t;
+           while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+         cout<<" Enter Gold price : ";
+            cin>>t;
+        }
+         go=stoi(t);
         cout<<" Enter Silver price : ";
-        cin>>silv;
-                o1[t-1].adminssetprice(plat,go,silv);}else cout<<" Enter valid details!\n";
+        cin>>t;
+           while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+              cout<<" Enter Silver price : ";
+            cin>>t;
+        }
+         silv=stoi(t);
+                o1[t1-1].adminssetprice(plat,go,silv);}else cout<<" Enter valid details!\n";
 
                 }
             }}
@@ -360,38 +439,74 @@ int main()
         cout<<endl<<endl;
     int screen,c;
     cout<<" 1 : Book a ticket  2: Cancel a ticet : ";
-    cin>>c;
+    cin>>t;
+
+        while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n";
+            cout<<" 1 : Book a ticket  2: Cancel a ticet : ";
+            cin>>t;
+        }
+         c=stoi(t);
+
     cout<<endl<<endl;
     if(c==1)
     {
-        int t;
+        int t1;
         cout<<" Enter no of tickets to be booked : ";
         cin>>t;
-        while(t){
+        while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+            cout<<" Enter no of tickets to be booked : ";
+            cin>>t;
+        }
+         t1=stoi(t);
+        while(t1){
         cout<<" Enter Screen : ";
-        cin>>screen;
+        cin>>t;
+           while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+            cout<<" Enter Screen : ";
+            cin>>t;
+        }
+         screen=stoi(t);
+
         cout<<endl<<endl;
         if(screen>0&&screen<4){
         o1[screen-1].sdisplay(screen-1);
-        o1[screen-1].sbook();t--;}else cout<<" Please enter valid details!\n";}
+        o1[screen-1].sbook();t1--;}else cout<<" Please enter valid details!\n";}
    }
     else if(c==2)
     {
         string choiceid;
-        cout<<"Enter booking ID : ";
-        cin>>choiceid;
+        cout<<" Enter booking ID : ";
+        cin>>t;
+           while(!isNumeric1(t))
+        {
+            cout<<" Wrong Input!\n\n\n";
+             cout<<" Enter booking ID : ";
+            cin>>t;
+        }
+            choiceid=t;
         char z=choiceid[choiceid.length()-1];
         int a=stoi(&z);
         if(a<4&&a>0)
         {
-            cout<<"THEATER : "<<a<<endl;
+            cout<<" THEATER : "<<a<<endl;
             o1[a-1].scancel(choiceid);
         }
         else
-            cout<<"Wrong Booking Id\n";
+            cout<<" Wrong Booking Id\n";
     }
 
     }
+    else if(!choice)
+        exit(0);
+    else
+        cout<<"Wrong Input!";
 }
     return 0;
 }
+
