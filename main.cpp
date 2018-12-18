@@ -14,7 +14,7 @@ struct seatinfo
     struct seatinfo *next;
 };
 typedef struct seatinfo *node;
-int counter=0;
+int counter=0,flag=0;
 
 node getnode()
 {
@@ -473,20 +473,21 @@ int main()
         }
     else if(choice==2)
     {cout<<endl<<endl;
+        if(!flag){
          for(int i=0;i<3;i++)
         {
             o1[i].mseat(i);
             cout<<" SCREEN : "<<i+1<<" MOVIE : "<<moviename[i]<<endl;
-        }
+        }flag=1;}
         cout<<endl<<endl;
     int screen,c;
-    cout<<" 1 : Book a ticket  2: Cancel a ticet : ";
+    cout<<" 1 : Book a ticket  2: Cancel a ticet  0:Exit\n ";
     cin>>t;
 
         while(!isNumeric1(t))
         {
             cout<<" Wrong Input!\n";
-            cout<<" 1 : Book a ticket  2: Cancel a ticet : ";
+            cout<<" 1 : Book a ticket  2: Cancel a ticet  0:Exit :";
             cin>>t;
         }
          c=stoi(t);
