@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <cstring>
+#include <fstream>
 using namespace std;
 struct seatinfo
 {
@@ -13,7 +14,7 @@ struct seatinfo
     struct seatinfo *next;
 };
 typedef struct seatinfo *node;
-
+int counter=0;
 
 node getnode()
 {
@@ -111,7 +112,47 @@ temp->cost=platinum;
         }
         cout<<" Earning : "<<earning<<endl;
         cout<<" Food Earning : "<<fearning<<endl;
-    }
+        }
+
+        void txt(int z){
+        if(!counter)
+        {
+            ofstream myfile;
+myfile.open("file.txt");
+node temp=head;
+         myfile<<"Theater : "<<z+1<<endl;
+        while(temp!=NULL)
+        {
+            if(!temp->avail)
+            {
+                myfile<<"Seat  : "<<temp->row<<temp->no<<endl;
+            }
+            temp=temp->next;
+        }
+        myfile<<"**Earning : "<<earning<<"*"<<endl;
+        myfile<<"------------\n";
+        myfile.close();
+        counter++;}
+
+        else{
+        ofstream myfile;
+myfile.open("file.txt", std::ios_base::app);
+node temp=head;
+     myfile<<"Theater : "<<z+1<<endl;
+        while(temp!=NULL)
+        {
+
+            if(!temp->avail)
+            {
+              myfile<<"Seat  : "<<temp->row<<temp->no<<endl;
+            }
+            temp=temp->next;
+        }
+        myfile<<"**Earning : "<<earning<<"*"<<endl;
+        myfile<<"------------\n";
+        myfile.close();}
+
+}
 
    void sdisplay(int z)
    {
@@ -378,6 +419,7 @@ int main()
                     {
                         for(int k=0;k<3;k++)
                             o1[k].admindisplay(k);
+                            counter=0;
                     }
 
                 else if(c==3)
@@ -476,7 +518,11 @@ int main()
         cout<<endl<<endl;
         if(screen>0&&screen<4){
         o1[screen-1].sdisplay(screen-1);
-        o1[screen-1].sbook();t1--;}else cout<<" Please enter valid details!\n";}
+        o1[screen-1].sbook();t1--;}else cout<<" Please enter valid details!\n";
+          for(int k=0;k<3;k++)
+                            o1[k].txt(k);
+                            counter=0;
+        }
    }
     else if(c==2)
     {
